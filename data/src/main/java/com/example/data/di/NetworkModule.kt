@@ -12,6 +12,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -50,7 +51,7 @@ internal object NetworkModule {
     @Singleton
     fun provideMoshi(): Moshi {
         return Moshi.Builder()
-            .add(Rfc3339DateJsonAdapter().nullSafe())
+            .add(LocalDateTime::class.java, Rfc3339DateJsonAdapter().nullSafe())
             .add(KotlinJsonAdapterFactory())
             .build()
     }

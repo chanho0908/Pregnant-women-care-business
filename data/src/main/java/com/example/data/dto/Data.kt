@@ -15,6 +15,6 @@ data class Data(
     val 업종: String,
     val 위도: String,
     val 할인대상: String,
-    val 할인율: String,
+    val 할인율: String?,
     val 할인품목: String
 )

@@ -58,6 +58,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.appcompat)
+    implementation(libs.v2.common)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -78,4 +79,9 @@ dependencies {
     implementation(libs.orbit.viewmodel)
 
     implementation(libs.coil.compose)
+
+    implementation(libs.navercorp)
+    implementation(libs.kakao.user)
+    implementation (libs.timber)
+
 }
