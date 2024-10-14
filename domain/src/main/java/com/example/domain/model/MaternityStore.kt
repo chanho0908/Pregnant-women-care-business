@@ -16,6 +16,6 @@ data class MaternityStore(
     val discountItem: String
 )
 
-data class MaternityStoreList(
+data class MaternityStores(
     val maternityStoreList: List<MaternityStore>
 )

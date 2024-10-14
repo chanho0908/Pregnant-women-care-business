@@ -1,8 +1,7 @@
 package com.example.data.dto
 
 import com.example.domain.model.MaternityStore
-import com.example.domain.model.MaternityStoreList
-import com.squareup.moshi.Json
+import com.example.domain.model.MaternityStores
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
@@ -14,8 +13,8 @@ data class MaternityResponse(
     val perPage: Int,
     val totalCount: Int
 ) {
-    fun toDomainModel(): MaternityStoreList {
-        return MaternityStoreList(data.map {
+    fun toDomainModel(): MaternityStores {
+        return MaternityStores(data.map {
             MaternityStore(
                 longitude = it.경도,
                 district = it.구,

@@ -9,37 +9,38 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
+import org.orbitmvi.orbit.syntax.simple.intent
+import org.orbitmvi.orbit.syntax.simple.postSideEffect
+import org.orbitmvi.orbit.syntax.simple.reduce
 import org.orbitmvi.orbit.viewmodel.container
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val getMaternityStoreUseCase: GetMaternityStoreUseCase,
-): ViewModel(), ContainerHost<MainState, MainSideEffect> {
-    override val container: Container<MainState, MainSideEffect> = container(
-        initialState = MainState(),
+): ViewModel(), ContainerHost<MainStates, MainSideEffect> {
+    override val container: Container<MainStates, MainSideEffect> = container(
+        initialState = MainStates(emptyList()),
     )
 
     init {
-        viewModelScope.launch {
-            getMaternityStoreUseCase().onSuccess { maternityStoreList ->
-                Log.d("dasdasdsa", maternityStoreList.toString())
-            }.onFailure {
-                Log.d("dasdasdsa", it.toString())
+        load()
+    }
 
-            }
+    private fun load() = intent{
+        postSideEffect(MainSideEffect.Loading)
+
+        getMaternityStoreUseCase().onSuccess { maternityStores ->
+            reduce { state.copy( stores =  maternityStores.toUiModel() ) }
+        }.onFailure {
+            postSideEffect(MainSideEffect.Toast("데이터 로딩에 실패 했습니다."))
         }
     }
 }
 
-@Immutable
-data class MainState(
-    val isLoading: Boolean = false,
-    val errorMessage: String? = null
-)
-
 sealed class MainSideEffect {
-    data class ShowToast(val message: String): MainSideEffect()
+    data object Loading: MainSideEffect()
+    data class Toast(val message: String): MainSideEffect()
     object NavigateToDetail: MainSideEffect()
 }
 
